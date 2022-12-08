@@ -6,7 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const myName = 'Alexander';
+const myName = 'Сергей';
 const textMessage = 'Тестовое сообщение';
 root.render(
     <React.StrictMode>
