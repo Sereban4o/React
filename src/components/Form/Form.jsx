@@ -2,6 +2,7 @@ import { useRef, useState } from "react"
 import TextField from "@mui/material/TextField"
 import Button from '@mui/material/Button'
 import { useEffect } from "react";
+import { AUTHOR } from "../../constants";
 
 export function Form({ addMessage }) {
     const [text, setText] = useState('')
@@ -10,7 +11,7 @@ export function Form({ addMessage }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         addMessage({
-            author: 'user',
+            author: AUTHOR.user,
             text
         });
         setText('');

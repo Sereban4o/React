@@ -1,61 +1,70 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
-import './App.css';
-import Message from './message';
-import { MessageList } from './components/MessageList/MessageList';
-import { Form } from './components/Form/Form';
-import {
-    ThemeProvider,
-    useTheme,
-} from "@mui/material";
-import createMuiTheme from '@mui/material/styles/createTheme'
+import { Routes, Route } from 'react-router-dom'
+import { nanoid } from 'nanoid'
 
-function App(props) {
-    const [messages, setMessages] = useState([]);
-    const addMessage = (newMessage) => {
+import { Header } from './components/Header/Header'
+import { HomePage } from './pages/HomePage'
+import { ProfilePage } from './pages/ProfilePage'
+import { ChatsPage } from './pages/ChatsPage'
+import { ChatList } from './components/ChatList/ChatList'
+import { useState } from 'react'
 
-        setMessages([...messages, newMessage])
-    }
-
-    const theme = createMuiTheme({
-        palette: {
-            primary: {
-                main: "#FF9800",
-            },
-            secondary: {
-                main: "#0098FF",
-            },
+const defaultMessges = {
+    default: [
+        {
+            author: 'user',
+            text: 'one text'
         },
-    });
-    useEffect(() => {
-        if (messages.length > 0 && messages[messages.length - 1].author === 'user') {
-            const timeout = setTimeout(() => {
-                addMessage({
-                    author: 'bot',
-                    text: 'Я бот'
-                })
-            }, 1500)
-            return () => { clearTimeout(timeout) }
-        }
-
-    }, [messages])
-
-
-    return (
-        <ThemeProvider theme={theme}>
-            <div className="App">
-                <header className="App-header">
-                    Мое первое приложение на React
-                    <h3>Привет, {props.name}</h3>
-                    <Message message={props.message} />
-                    <Form addMessage={addMessage} />
-                    <MessageList messages={messages} />
-
-
-                </header>
-
-            </div></ThemeProvider>
-    );
+        {
+            author: 'user',
+            text: 'two text'
+        },
+    ]
 }
 
-export default App;
+export function App() {
+    const [messages, setMessages] = useState(defaultMessges)
+
+    const chats = Object.keys(messages).map((chat) => ({
+        id: nanoid(),
+        name: chat
+    }))
+
+    const onAddChat = (newChat) => {
+        console.log('newChat', newChat)
+        setMessages({
+            ...messages,
+            [newChat.name]: []
+        })
+    }
+
+    const onAddMessage = (chatId, newMassage) => {
+        setMessages({
+            ...messages,
+            [chatId]: [...messages[chatId], newMassage]
+        })
+    }
+
+    return (
+        <>
+
+            <Routes>
+                <Route path='/' element={<Header />}>
+                    <Route index element={<HomePage />} />
+                    <Route path="profile" element={<ProfilePage />} />
+                    <Route path="chats">
+                        <Route index element={<ChatList chats={chats} onAddChat={onAddChat} />} />
+                        <Route
+                            path=":chatId"
+                            element={<ChatsPage chats={chats}
+                                messages={messages}
+                                onAddMessage={onAddMessage}
+                                onAddChat={onAddChat} />}
+                        />
+                    </Route>
+                </Route>
+
+                <Route path="*" element={<h2>404 Page not FOUND</h2>} />
+            </Routes>
+        </>
+    )
+}

@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-
+import { App } from './App'
+import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -10,8 +10,9 @@ const myName = 'Сергей';
 const textMessage = 'Тестовое сообщение';
 root.render(
     <React.StrictMode>
-        <App name={myName} message={textMessage} />
-
+        <BrowserRouter>
+            <App name={myName} message={textMessage} />
+        </BrowserRouter>
     </React.StrictMode>
 );
 
