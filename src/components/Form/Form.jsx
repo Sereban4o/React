@@ -1,39 +1,42 @@
-import { useRef, useState } from "react"
-import TextField from "@mui/material/TextField"
-import Button from '@mui/material/Button'
-import { useEffect } from "react";
-import { AUTHOR } from "../../constants";
+import PropTypes from 'prop-types'
+import { useState } from 'react'
+import { Button } from '../ui/Button'
+import { useDispatch } from 'react-redux'
+import { addMessage } from '../../store/messages/actions'
+import { useParams } from 'react-router-dom'
 
-export function Form({ addMessage }) {
+
+export function Form() {
     const [text, setText] = useState('')
+    const dispatch = useDispatch()
+    const { chatId } = useParams()
 
-    const inputRef = useRef();
     const handleSubmit = (e) => {
-        e.preventDefault();
-        addMessage({
-            author: AUTHOR.user,
-            text
-        });
-        setText('');
-        inputRef.current?.focus();
+        e.preventDefault()
+        dispatch(addMessage(chatId, text))
 
+        setText('')
     }
-
-    useEffect(() => {
-        inputRef.current?.focus();
-    }, []);
 
 
     return (
         <>
             <h1>Форма</h1>
             <form onSubmit={handleSubmit}>
-                <TextField
-                    inputRef={inputRef}
-                    value={text} onChange={(e) => setText(e.target.value)}
-                    id="standard-basic" label="Standard" variant="standard" />
-                <Button variant="contained" type="submit">Отправить</Button>
+                <input
+                    type="text"
+                    value={text}
+                    onChange={(event) => setText(event.target.value)}
+                />
+
+                <Button type="submit">Добавить сообщение</Button>
+
             </form>
+
         </>
     )
+}
+
+Form.propTypes = {
+    addMessage: PropTypes.func
 }

@@ -1,40 +1,21 @@
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import CommentIcon from '@mui/icons-material/Comment';
-import IconButton from '@mui/material/IconButton';
-import './MessageList.css'
+import PropTypes from 'prop-types'
+
 export function MessageList({ messages }) {
-    const chatList = [
-        'Чат №1',
-        'Чат №2',
-        'Чат №3'];
+    console.log('messages', messages)
     return (
         <>
-            <h1>Чат</h1>
-            <div className="ChatList">
-                <List sx={{ width: '100%', maxWidth: 360, }}>
-                    {chatList.map((value) => (
-                        <ListItem
-                            key={value}
-                            disableGutters
-                            secondaryAction={
-                                <IconButton aria-label="comment">
-                                    <CommentIcon />
-                                </IconButton>
-                            }
-                        >
-                            <ListItemText primary={`${value}`} />
-                        </ListItem>
-                    ))}
-                </List>
-
-                <ul>
-                    {messages.map((item, index) => (
-                        <li key={index}>{item.author} - {item.text}  </li>
-                    ))}
-                </ul>
-            </div>
+            <h1>Список сообщений</h1>
+            <ul>
+                {messages.map((message, index) => (
+                    <li key={index}>
+                        {message.author} : {message.text}
+                    </li>
+                ))}
+            </ul>
         </>
     )
+}
+
+MessageList.propTypes = {
+    messages: PropTypes.array
 }
