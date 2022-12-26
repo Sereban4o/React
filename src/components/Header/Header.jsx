@@ -20,6 +20,11 @@ export const navigate = [
         name: 'Чаты',
         to: '/chats'
     },
+    {
+        id: 4,
+        name: 'О нас',
+        to: '/about'
+    },
 ]
 
 export function Header() {

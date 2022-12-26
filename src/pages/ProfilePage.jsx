@@ -1,7 +1,6 @@
 import { useContext, useState } from 'react'
 import { ThemeContext } from '../utils/ThemeContext'
 import { useSelector, useDispatch } from 'react-redux'
-
 import { changeName, toggleProfile } from '../store/profile/actions'
 import { selectName, selectVisible } from '../store/profile/selectors'
 
@@ -21,7 +20,7 @@ export function ProfilePage() {
             <hr />
             <h2>{name}</h2>
             <input type="checkbox" checked={visible} readOnly />
-            <button onClick={() => dispatch(toggleProfile())} >видимость</button>
+            <button onClick={() => dispatch(toggleProfile())} >изменить видимость</button>
             <br />
             <input
                 type="text"

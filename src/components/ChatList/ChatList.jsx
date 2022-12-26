@@ -15,6 +15,7 @@ export function ChatList() {
     const handleSubmit = (e) => {
         e.preventDefault()
         dispatch(addChat(value))
+
     }
 
 
@@ -31,14 +32,14 @@ export function ChatList() {
                 ))}
             </ul>
 
-            <h1>Список чатов</h1>
+            <h1>Чаты</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                 />
-                <button type="submit">Сохдать чат</button>
+                <button type="submit">Создать чат</button>
             </form>
         </>
     )

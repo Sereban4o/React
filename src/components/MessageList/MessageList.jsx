@@ -4,7 +4,7 @@ export function MessageList({ messages }) {
     console.log('messages', messages)
     return (
         <>
-            <h1>Список сообщений</h1>
+            <h1>Сообщения</h1>
             <ul>
                 {messages.map((message, index) => (
                     <li key={index}>
