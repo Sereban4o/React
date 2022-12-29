@@ -3,43 +3,42 @@ import { useState } from 'react'
 import { AUTHOR } from '../../constants'
 import { Button } from '../ui/Button'
 import { useDispatch } from 'react-redux'
-import { addMessage, addMessageWithReply } from '../../store/messages/actions'
+import { addMessageWithReply } from '../../store/messages/actions'
 import { useParams } from 'react-router-dom'
 
 
 export function Form() {
-    const [text, setText] = useState('')
-    const dispatch = useDispatch()
-    const { chatId } = useParams()
+  const [text, setText] = useState('')
+  const dispatch = useDispatch()
+  const { chatId } = useParams()
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        dispatch(addMessageWithReply(chatId, {
-            author: AUTHOR.user,
-            text
-        }))
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(addMessageWithReply(chatId, {
+      author: AUTHOR.user,
+      text
+    }))
 
-        setText('')
-    }
+    setText('')
+  }
 
-    return (
-        <>
-            <h1>Форма</h1>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    value={text}
-                    onChange={(event) => setText(event.target.value)}
-                />
 
-                <Button type="submit">Добавить сообщение</Button>
+  return (
+    <>
+      <h1>Форма</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={text}
+          onChange={(event) => setText(event.target.value)}
+        />
+        <Button type="submit">Добавить сообщение</Button>
+      </form>
 
-            </form>
-
-        </>
-    )
+    </>
+  )
 }
 
 Form.propTypes = {
-    addMessage: PropTypes.func
+  addMessage: PropTypes.func
 }
