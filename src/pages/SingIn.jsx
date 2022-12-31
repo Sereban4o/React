@@ -1,24 +1,35 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
+import { signIn } from '../services/firebase';
 import { auth } from '../store/profile/actions'
 
+
 export function SingIn() {
-  const [inputs, setInputs] = useState({login: '', password: ''})
+  const [inputs, setInputs] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if (inputs.login === 'gb' && inputs.password === 'gb') {
+    setError('')
+    setLoading(true)
+    try {
+      await signIn(inputs.email, inputs.password)
       dispatch(auth(true))
-      navigate('/')
-    } else {
-      setError('Login and password faild')
-      setInputs({login: '', password: ''})
+      navigate('/chats')
+    } catch (error) {
+      console.log(error)
+      setError(error.message)
+      setInputs({ email: '', password: '' })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -26,23 +37,28 @@ export function SingIn() {
     <>
       <div>SingIn</div>
       <form onSubmit={handleSubmit}>
-        <p>Ligin:</p>
-        <input 
+        <p>Email:</p>
+        <input
           type="text"
-          name="login"
-          value={inputs.login}
-          onChange={(e) => setInputs((prev) => ({...prev, [e.target.name]: e.target.value}))}
+          name="email"
+          value={inputs.email}
+          onChange={(e) => setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
         />
-        <p>Password:</p>
-        <input 
+        <p>Пароль:</p>
+        <input
           type="text"
           name="password"
           value={inputs.password}
-          onChange={(e) => setInputs((prev) => ({...prev, [e.target.name]: e.target.value}))}
+          onChange={(e) => setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
         />
-        <button>login</button>
+        <button>Логин</button>
       </form>
-      {error && <p style={{color: 'red'}}>{error}</p>}
+      {loading && (
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <CircularProgress />
+        </Box>
+      )}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </>
   )
 }

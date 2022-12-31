@@ -7,9 +7,11 @@ import { useSelector } from 'react-redux'
 import { selectMessage } from '../../store/messages/selectors'
 import styles from './ChatsPage.module.css'
 
-export function ChatsPage() {
+
+export function ChatsPage({ messageDB, chats }) {
   const { chatId } = useParams()
   const messages = useSelector(selectMessage)
+
   const MessageListWithClass = WithClasses(MessageList)
 
   if (chatId && !messages[chatId]) {
