@@ -11,40 +11,42 @@ import { getMessageListById } from '../../services/firebase'
 
 
 export function Form() {
-  const [text, setText] = useState('')
-  const dispatch = useDispatch()
-  const { chatId } = useParams()
+    const [text, setText] = useState('')
+    const dispatch = useDispatch()
+    const { chatId } = useParams()
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    dispatch(addMessageWithReply(chatId, {
-      author: AUTHOR.user,
-      text
-    }))
-    push(getMessageListById(chatId), {
-      author: AUTHOR.user,
-      text
-    })
+    const handleSubmit = (e) => {
+        e.preventDefault()
 
-    setText('')
-  }
+        dispatch(addMessageWithReply(chatId, {
+            author: AUTHOR.user,
+            text
+        }))
+        push(getMessageListById(chatId), {
+            author: AUTHOR.user,
+            text
+        })
 
-  return (
-    <>
-      <h1>Форма</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={text}
-          onChange={(event) => setText(event.target.value)}
-        />
-        <Button type="submit">Добавить сообщение</Button>
-      </form>
+        setText('')
+    }
 
-    </>
-  )
+
+    return (
+        <>
+            <h1>Форма</h1>
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    value={text}
+                    onChange={(event) => setText(event.target.value)}
+                />
+                <Button type="submit">Добавить сообщение</Button>
+            </form>
+
+        </>
+    )
 }
 
 Form.propTypes = {
-  addMessage: PropTypes.func
+    addMessage: PropTypes.func
 }

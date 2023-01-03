@@ -9,56 +9,58 @@ import { auth } from '../store/profile/actions'
 
 
 export function SingIn() {
-  const [inputs, setInputs] = useState({ email: '', password: '' })
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+    const [inputs, setInputs] = useState({ email: '', password: '' })
+    const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
-    try {
-      await signIn(inputs.email, inputs.password)
-      dispatch(auth(true))
-      navigate('/chats')
-    } catch (error) {
-      console.log(error)
-      setError(error.message)
-      setInputs({ email: '', password: '' })
-    } finally {
-      setLoading(false)
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setError('')
+        setLoading(true)
+        try {
+            await signIn(inputs.email, inputs.password)
+            dispatch(auth(true))
+            navigate('/chats')
+        } catch (error) {
+            console.log(error)
+            setError(error.message)
+            setInputs({ email: '', password: '' })
+        } finally {
+            setLoading(false)
+        }
     }
-  }
 
-  return (
-    <>
-      <div>SingIn</div>
-      <form onSubmit={handleSubmit}>
-        <p>Email:</p>
-        <input
-          type="text"
-          name="email"
-          value={inputs.email}
-          onChange={(e) => setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
-        />
-        <p>Пароль:</p>
-        <input
-          type="text"
-          name="password"
-          value={inputs.password}
-          onChange={(e) => setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
-        />
-        <button>Логин</button>
-      </form>
-      {loading && (
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <CircularProgress />
-        </Box>
-      )}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </>
-  )
+    return (
+        <>
+            <div>Вход</div>
+            <form onSubmit={handleSubmit}>
+                <label>Email:
+                    <input
+                        type="text"
+                        name="email"
+                        value={inputs.email}
+                        onChange={(e) => setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+                    />
+                </label>
+                <label>Пароль:
+                    <input
+                        type="text"
+                        name="password"
+                        value={inputs.password}
+                        onChange={(e) => setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+                    />
+                </label>
+                <button>Войти</button>
+            </form>
+            {loading && (
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <CircularProgress />
+                </Box>
+            )}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+        </>
+    )
 }
